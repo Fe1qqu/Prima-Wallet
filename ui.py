@@ -51,7 +51,16 @@ class WalletApplication:
         self.receiver_address_entry.pack()
 
         tk.Label(root_window, text="Сумма перевода").pack()
-        self.transfer_amount_entry = tk.Entry(root_window)
+        #self.transfer_amount_entry = tk.Entry(root_window)
+        #self.transfer_amount_entry.pack()
+
+        vcmd = (root_window.register(self.only_digits), "%P")
+
+        self.transfer_amount_entry = tk.Entry(
+            root_window,
+            validate="key",
+            validatecommand=vcmd
+        )
         self.transfer_amount_entry.pack()
 
         tk.Button(
@@ -99,6 +108,7 @@ class WalletApplication:
             return
 
         balance: int = get_wallet_balance(self.wallet.address)
+        #fdfkdkfldfkkjkgfjdkjfkldkldkd_ddddddddddd
         self.balance_label.config(text=f"Баланс: {balance}")
 
     def send_transaction(self) -> None:
@@ -107,6 +117,9 @@ class WalletApplication:
             return
 
         receiver_address: str = self.receiver_address_entry.get()
+        if not self.transfer_amount_entry.get():
+            messagebox.showerror("Ошибка", "Введите сумму перевода")
+            return
         transfer_amount: int = int(self.transfer_amount_entry.get())
 
         sender_balance: int = get_wallet_balance(self.wallet.address)
@@ -138,6 +151,8 @@ class WalletApplication:
         messagebox.showinfo("Майнинг", str(mining_result))
         self.update_balance()
 
+    def only_digits(self, new_value: str) -> bool:
+        return new_value.isdigit() or new_value == ""
 
 if __name__ == "__main__":
     root = tk.Tk()
