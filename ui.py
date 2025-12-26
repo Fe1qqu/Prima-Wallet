@@ -51,8 +51,6 @@ class WalletApplication:
         self.receiver_address_entry.pack()
 
         tk.Label(root_window, text="Сумма перевода").pack()
-        #self.transfer_amount_entry = tk.Entry(root_window)
-        #self.transfer_amount_entry.pack()
 
         vcmd = (root_window.register(self.only_digits), "%P")
 
@@ -108,7 +106,6 @@ class WalletApplication:
             return
 
         balance: int = get_wallet_balance(self.wallet.address)
-        #fdfkdkfldfkkjkgfjdkjfkldkldkd_ddddddddddd
         self.balance_label.config(text=f"Баланс: {balance}")
 
     def send_transaction(self) -> None:
